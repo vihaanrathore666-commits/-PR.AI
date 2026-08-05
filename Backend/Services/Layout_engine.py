@@ -1,9 +1,10 @@
-from PIL import Image, ImageDraw, ImageFont
 import io
+from PIL import Image, ImageDraw, ImageFont, ImageEnhance, ImageFilter
+from backend.utils.enhancement import ProductEnhancementEngine
 
 class LayoutEngineService:
     def __init__(self):
-        # Base design dimensions mapping standard premium Instagram configurations
+        # Master system resolution dictionary configurations
         self.dimensions = {
             "instagram_feed": (1080, 1350),
             "instagram_story": (1080, 1920),
@@ -24,57 +25,87 @@ class LayoutEngineService:
         Assembles background colors, borders, typography padding, and badges 
         to output a clean, ultra-expensive looking social ad frame.
         """
-        # Determine canvas size
         canvas_size = self.dimensions.get(resolution, (1080, 1350))
+        c_w, c_h = canvas_size
         
-        # 1. Establish Style Palette Configs
+        # 1. Automatically harvest dynamic product palette elements
+        palette = ProductEnhancementEngine.extract_dominant_palette(product_layer)
+        primary_product_color = palette[0]
+        
+        # 2. Establish Global Luxury Architecture Layout Styling Parameters
         if design_style == "dark_luxury":
-            bg_color = (15, 15, 17, 255)       # Rich Charcoal
-            text_color = (212, 175, 55, 255)   # Premium Champagne Gold
-            accent_color = (255, 255, 255, 255)
+            bg_color = (13, 13, 15, 255)       
+            text_color = (218, 165, 32, 255)   # Premium Champagne Luxury Gold Code
+            accent_color = (245, 245, 247, 255)
+            draw_ambient_gradient = True
         elif design_style == "apple":
-            bg_color = (245, 245, 247, 255)    # Clean Apple White
-            text_color = (29, 29, 31, 255)     # Deep Onyx Black
-            accent_color = (110, 110, 115, 255)
-        else: # Zara Style (Minimalist Editorial)
-            bg_color = (255, 255, 255, 255)    # Stark Gallery White
-            text_color = (0, 0, 0, 255)        # Sharp Editorial Black
-            accent_color = (100, 100, 100, 255)
+            bg_color = (245, 245, 247, 255)    
+            text_color = (29, 29, 31, 255)     
+            accent_color = (134, 134, 139, 255)
+            draw_ambient_gradient = False
+        else: # Zara Style (Minimalist Editorial Setup)
+            bg_color = (255, 255, 255, 255)    
+            text_color = (15, 15, 15, 255)     
+            accent_color = (110, 110, 110, 255)
+            draw_ambient_gradient = False
 
-        # 2. Render Main Canvas Canvas Background Layer
+        # 3. Instantiate and Draw Background Canvas Array Setup
         canvas = Image.new("RGBA", canvas_size, bg_color)
         draw = ImageDraw.Draw(canvas)
         
-        # 3. Position and Resize Isolated Product Layer Autoscale
-        # Ensure the product scales elegantly within the upper/middle frame region
-        max_prod_w = int(canvas_size[0] * 0.75)
-        max_prod_h = int(canvas_size[1] * 0.55)
+        if draw_ambient_gradient:
+            # Generate a gorgeous luxury vignette radial flare in back of product layer
+            for r in range(int(c_w * 0.8), 0, -4):
+                alpha = int(45 * (1.0 - (r / (c_w * 0.8))))
+                # Blend subtly into the background color space
+                draw.ellipse(
+                    [c_w//2 - r, c_h//2 - r, c_w//2 + r, c_h//2 + r], 
+                    fill=(primary_product_color[0], primary_product_color[1], primary_product_color[2], alpha)
+                )
+
+        # 4. Scale and Position Product Layer Safely
+        max_w = int(c_w * 0.80)
+        max_h = int(c_h * 0.58)
+        product_layer.thumbnail((max_w, max_h), Image.Resampling.LANCZOS)
         
-        product_layer.thumbnail((max_prod_w, max_prod_h), Image.Resampling.LANCZOS)
-        
-        # Center horizontally, place slightly above vertical center to save space for luxury text layout
-        prod_x = (canvas_size[0] - product_layer.size[0]) // 2
-        prod_y = int(canvas_size[1] * 0.22)
+        prod_w, prod_h = product_layer.size
+        prod_x = (c_w - prod_w) // 2
+        prod_y = int(c_h * 0.20) # Editorial positioning balance rule
         
         canvas.alpha_composite(product_layer, (prod_x, prod_y))
         
-        # 4. Render Editorial Typography and Badges
-        # Note: In standard python setups, default system fonts are used unless .ttf handles are passed
-        # We design structured geometric text alignments to mimic luxury advertisements
+        # 5. Render Geometry Layout Components (Borders & Clean Frames)
+        if design_style == "zara":
+            # Draw ultra-thin high-end art gallery framing border lines
+            padding = int(c_w * 0.03)
+            draw.rectangle([padding, padding, c_w - padding, c_h - padding], outline=(230, 230, 230, 255), width=1)
+
+        # 6. High-Fidelity Typography Engine Simulation Core 
+        # Standardizes layout rendering without failing on missing external font links
+        brand_clean = "  ".join(list(brand_name.upper())) # Elegant spacing expansion
+        draw.text((c_w // 2, int(c_h * 0.08)), brand_clean, fill=text_color, anchor="mm", font=None)
         
-        # Draw Brand Title (Top Centered or Bottom Minimal)
-        brand_clean = brand_name.upper()
-        draw.text(((canvas_size[0] // 2), int(canvas_size[1] * 0.08)), brand_clean, fill=text_color, anchor="mm")
+        # Draw Product Footer Titles Block Layout
+        draw.text((c_w // 2, int(c_h * 0.82)), product_name, fill=text_color, anchor="mm", font=None)
         
-        # Draw Product Details Footer Block
-        draw.text(((canvas_size[0] // 2), int(canvas_size[1] * 0.82)), product_name, fill=text_color, anchor="mm")
+        # Draw Dynamic Price Presentation and Automated Affiliate Tag Badge Structures
+        price_tag_string = f"{price}  |  SPECIAL RELEASE" if not discount else f"{price} ({discount})"
+        draw.text((c_w // 2, int(c_h * 0.87)), price_tag_string, fill=accent_color, anchor="mm", font=None)
         
-        # Draw Luxury Price Matrix & CTA Badge Elements
-        price_display = f"{price} - Limited Release" if not discount else f"{price} ({discount})"
-        draw.text(((canvas_size[0] // 2), int(canvas_size[1] * 0.88)), price_display, fill=accent_color, anchor="mm")
+        # Draw Call to Action (CTA) Pill Box Layout Frame
+        cta_y = int(c_h * 0.93)
+        cta_w, cta_h = int(c_w * 0.35), int(c_h * 0.035)
+        cta_x1, cta_y1 = (c_w - cta_w) // 2, cta_y - (cta_h // 2)
+        cta_x2, cta_y2 = cta_x1 + cta_w, cta_y1 + cta_h
         
-        # Export master processed asset frame as raw data stream
+        cta_fill = text_color if design_style != "zara" else (20, 20, 22, 255)
+        cta_text_color = bg_color if design_style != "zara" else (255, 255, 255, 255)
+        
+        draw.rounded_rectangle([cta_x1, cta_y1, cta_x2, cta_y2], radius=6, fill=cta_fill)
+        draw.text((c_w // 2, cta_y), "SHOP LINK", fill=cta_text_color, anchor="mm")
+
+        # 7. Convert Output Canvas Stream Layout 
         output_buffer = io.BytesIO()
-        canvas.convert("RGB").save(output_buffer, format="JPEG", quality=95)
+        canvas.convert("RGB").save(output_buffer, format="JPEG", quality=98)
         output_buffer.seek(0)
         return output_buffer
