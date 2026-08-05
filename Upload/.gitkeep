@@ -1,0 +1,2 @@
+# Preserves the temporary upload directory layout structure for raw phone camera files.
+# This folder handles streaming binary image streams before they are passed into the AI filters.
