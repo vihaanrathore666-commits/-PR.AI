@@ -3,127 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Creative Studio — Premium Creative Engine</title>
+    <title>Studio — AI Creative Canvas</title>
     <script src="https://tailwindcss.com"></script>
     <style>
         @import url('https://googleapis.com');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b0b0c; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #0e0e10;
+            letter-spacing: -0.01em;
+        }
+        .serif-title { font-family: 'Playfair Display', serif; }
+        /* Smooth calming backdrop blur animations */
+        .glass-panel {
+            background: rgba(20, 20, 25, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
     </style>
 </head>
-<body class="text-gray-100 min-h-screen flex flex-col justify-between">
+<body class="text-neutral-200 min-h-screen flex flex-col justify-between selection:bg-neutral-800">
 
-    <!-- Premium Navigation Bar -->
-    <header class="border-b border-neutral-800 px-4 py-4 flex justify-between items-center bg-neutral-900/50 backdrop-blur-md sticky top-0 z-50">
-        <div class="flex items-center gap-2">
-            <div class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></div>
-            <span class="text-xs font-semibold tracking-widest uppercase bg-gradient-to-r from-amber-200 to-amber-500 bg-clip-text text-transparent">AI Creative Studio</span>
+    <!-- Elegant, Quiet Navigation Header -->
+    <header class="px-6 py-5 flex justify-between items-center bg-[#0e0e10]/80 backdrop-blur-md sticky top-0 z-50 border-b border-neutral-900/50">
+        <div class="flex items-center gap-3">
+            <span class="text-xs tracking-[0.25em] uppercase text-neutral-400 font-light">Studio Engine</span>
         </div>
-        <span class="text-[10px] text-neutral-500 border border-neutral-800 px-2 py-0.5 rounded bg-neutral-950">V1.0 Mobile Workspace</span>
+        <div class="flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-neutral-600"></span>
+            <span class="text-[10px] text-neutral-500 uppercase tracking-widest font-medium">Cloud Active</span>
+        </div>
     </header>
 
-    <!-- Main Workspace Dashboard Grid -->
-    <main class="flex-1 max-w-7xl w-full mx-auto p-4 grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <!-- Main Workspace: Immersive Visual Centered Viewport -->
+    <main class="flex-1 max-w-5xl w-full mx-auto px-4 py-6 md:py-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
-        <!-- Left Column: Settings Configuration Panel -->
-        <section class="lg:col-span-5 bg-neutral-900/30 border border-neutral-800/80 rounded-2xl p-4 md:p-6 space-y-5 backdrop-blur-xl">
-            <div>
-                <h2 class="text-base font-medium text-neutral-200">Creative Strategy Parameters</h2>
-                <p class="text-[11px] text-neutral-500 mt-0.5">Configure metadata engine algorithms and target luxury aesthetics.</p>
+        <!-- Left Workspace: Restful, Minimal Input Panel -->
+        <section class="lg:col-span-5 space-y-8">
+            <div class="space-y-1.5">
+                <h1 class="text-xl font-light text-neutral-100 tracking-tight">Creative Parameters</h1>
+                <p class="text-xs text-neutral-500 font-light leading-relaxed">Define the essence of your creative canvas. Minimal values yield cleaner layouts.</p>
             </div>
 
-            <!-- Form Data Stack -->
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-[10px] font-medium text-neutral-400 mb-1 uppercase tracking-wider">Brand Context</label>
-                    <input type="text" id="brandName" placeholder="e.g., ZARA, APPLE, NIKE" class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-amber-500/50 text-white placeholder-neutral-700 transition-colors">
-                </div>
-
-                <div>
-                    <label class="block text-[10px] font-medium text-neutral-400 mb-1 uppercase tracking-wider">Product Title</label>
-                    <input type="text" id="productName" placeholder="e.g., Minimalist Leather Boots" class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-amber-500/50 text-white placeholder-neutral-700 transition-colors">
-                </div>
-
-                <!-- Twin Columns Configuration -->
+            <!-- Interactive Form Stack -->
+            <div class="space-y-5">
                 <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-[10px] font-medium text-neutral-400 mb-1 uppercase tracking-wider">Retail Price</label>
-                        <input type="text" id="price" placeholder="$189" class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-amber-500/50 text-white placeholder-neutral-700 transition-colors">
+                    <div class="space-y-1">
+                        <label class="block text-[10px] font-medium text-neutral-500 uppercase tracking-wider">Brand Name</label>
+                        <input type="text" id="brandName" placeholder="e.g., ZARA" class="w-full bg-neutral-900/40 border border-neutral-800/60 rounded-xl px-3.5 py-3 text-xs focus:outline-none focus:border-neutral-600 text-white placeholder-neutral-700 transition-colors">
                     </div>
-                    <div>
-                        <label class="block text-[10px] font-medium text-neutral-400 mb-1 uppercase tracking-wider">Discount %</label>
-                        <input type="text" id="discount" placeholder="20% OFF" class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-amber-500/50 text-white placeholder-neutral-700 transition-colors">
+                    <div class="space-y-1">
+                        <label class="block text-[10px] font-medium text-neutral-500 uppercase tracking-wider">Product Title</label>
+                        <input type="text" id="productName" placeholder="e.g., Silk Shirt" class="w-full bg-neutral-900/40 border border-neutral-800/60 rounded-xl px-3.5 py-3 text-xs focus:outline-none focus:border-neutral-600 text-white placeholder-neutral-700 transition-colors">
                     </div>
                 </div>
 
-                <!-- Layout Engine Style Selectors -->
-                <div>
-                    <label class="block text-[10px] font-medium text-neutral-400 mb-1 uppercase tracking-wider">Target Design Style Template</label>
-                    <select id="designStyle" class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-amber-500/50 text-white transition-colors">
-                        <option value="zara">Zara Aesthetic (Minimalist Editorial)</option>
-                        <option value="apple">Apple Aesthetic (Ultra Clean Tech)</option>
-                        <option value="dark_luxury">Black & Gold (Premium Soft Luxury)</option>
-                        <option value="streetwear">Viral Streetwear (Bold Retro Typography)</option>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="block text-[10px] font-medium text-neutral-500 uppercase tracking-wider">Retail Price</label>
+                        <input type="text" id="price" placeholder="$140" class="w-full bg-neutral-900/40 border border-neutral-800/60 rounded-xl px-3.5 py-3 text-xs focus:outline-none focus:border-neutral-600 text-white placeholder-neutral-700 transition-colors">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block text-[10px] font-medium text-neutral-500 uppercase tracking-wider">Discount %</label>
+                        <input type="text" id="discount" placeholder="Optional" class="w-full bg-neutral-900/40 border border-neutral-800/60 rounded-xl px-3.5 py-3 text-xs focus:outline-none focus:border-neutral-600 text-white placeholder-neutral-700 transition-colors">
+                    </div>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="block text-[10px] font-medium text-neutral-500 uppercase tracking-wider">Aesthetic Archetype</label>
+                    <select id="designStyle" class="w-full bg-neutral-900/40 border border-neutral-800/60 rounded-xl px-3.5 py-3 text-xs focus:outline-none focus:border-neutral-600 text-neutral-300 transition-colors appearance-none">
+                        <option value="zara">Zara Minimalist (Pure Whitespace & Fine Serif)</option>
+                        <option value="apple">Apple Studio (Symmetric Tech Cleanliness)</option>
+                        <option value="dark_luxury">Muted Luxury (Deep Noir Mood Profiles)</option>
+                        <option value="streetwear">Impact Streetwear (Bold Dynamic Frameworks)</option>
                     </select>
                 </div>
 
-                <!-- Output Canvas Dimension Formatting -->
-                <div>
-                    <label class="block text-[10px] font-medium text-neutral-400 mb-1 uppercase tracking-wider">Target Output Resolution</label>
-                    <select id="resolution" class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-amber-500/50 text-white transition-colors">
-                        <option value="instagram_feed">Instagram Feed Optimized (1080 × 1350)</option>
+                <div class="space-y-1">
+                    <label class="block text-[10px] font-medium text-neutral-500 uppercase tracking-wider">Target Format Canvas</label>
+                    <select id="resolution" class="w-full bg-neutral-900/40 border border-neutral-800/60 rounded-xl px-3.5 py-3 text-xs focus:outline-none focus:border-neutral-600 text-neutral-300 transition-colors appearance-none">
+                        <option value="instagram_feed">Instagram Feed (1080 × 1350)</option>
                         <option value="instagram_story">Instagram Story / Reel (1080 × 1920)</option>
-                        <option value="4k_master">Ultra HD Master Archive (3840 px Or Higher)</option>
+                        <option value="4k_master">Ultra HD 4K Master Archive (3840 × 4800)</option>
                     </select>
                 </div>
 
-                <!-- Asset Intake Section -->
-                <div>
-                    <label class="block text-[10px] font-medium text-neutral-400 mb-1 uppercase tracking-wider">Raw Product Photo Input</label>
-                    <label class="flex flex-col items-center justify-center border-2 border-dashed border-neutral-800 hover:border-neutral-700 bg-neutral-950 rounded-xl p-5 cursor-pointer group transition-colors">
-                        <svg class="w-5 h-5 text-neutral-500 group-hover:text-amber-500/80 mb-1.5 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 002-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        <span class="text-[11px] text-neutral-400 font-medium text-center" id="uploadStatusText">Tap to choose image or snap photo</span>
+                <!-- Soothing Drag/Drop Image Intake Drawer -->
+                <div class="space-y-1">
+                    <label class="block text-[10px] font-medium text-neutral-500 uppercase tracking-wider">Product Asset Intake</label>
+                    <label class="flex flex-col items-center justify-center border border-dashed border-neutral-800 hover:border-neutral-700 bg-neutral-900/20 rounded-xl p-6 cursor-pointer group transition-colors">
+                        <span class="text-[11px] text-neutral-400 font-light" id="uploadStatusText">Tap to browse files or access camera roll</span>
                         <input type="file" id="productImage" accept="image/*" class="hidden">
                     </label>
                 </div>
 
-                <!-- Master Execution Call to Action -->
-                <button id="generateBtn" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-neutral-950 font-semibold py-3.5 px-4 rounded-xl text-xs transition-all shadow-lg shadow-amber-500/10 active:scale-[0.99]">
-                    Execute Premium Engine Pipeline
+                <!-- Peaceful Execution Action Button -->
+                <button id="generateBtn" class="w-full bg-white hover:bg-neutral-100 text-neutral-950 font-medium py-3 px-4 rounded-xl text-xs transition-all tracking-wide active:scale-[0.99]">
+                    Render Creative Canvas
                 </button>
             </div>
         </section>
 
-        <!-- Right Column: Interactive Real-Time Canvas Screen Workspace Preview -->
-        <section class="lg:col-span-7 bg-neutral-950 border border-neutral-800 rounded-2xl flex flex-col items-center justify-center p-4 relative min-h-[350px] lg:min-h-0 overflow-hidden">
-            <div class="absolute inset-0 bg-[linear-gradient(to_right,#1f1f21_1px,transparent_1px),linear-gradient(to_bottom,#1f1f21_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-20"></div>
+        <!-- Right Workspace: Peaceful Gallery Viewport Frame -->
+        <section class="lg:col-span-7 bg-neutral-900/10 border border-neutral-900 rounded-2xl p-4 flex flex-col items-center justify-center min-h-[420px] relative overflow-hidden">
             
-            <!-- Real-Time Dynamic Processing Feedback HUD -->
-            <div id="canvasPlaceholder" class="text-center z-10 space-y-2 px-4">
-                <div class="w-10 h-10 rounded-full border border-neutral-800 flex items-center justify-center mx-auto bg-neutral-900 text-neutral-500 text-sm">✨</div>
-                <p class="text-xs font-medium text-neutral-400">Rendering Viewport Idle</p>
-                <p class="text-[10px] text-neutral-600 max-w-xs mx-auto">Upload an asset to trigger live background isolation, ambient lighting re-generation, and layout processing rules instantly.</p>
+            <!-- Idle Relaxed Visual Screen Placeholder -->
+            <div id="canvasPlaceholder" class="text-center space-y-2 z-10 px-4">
+                <p class="text-xs text-neutral-400 font-light tracking-wide">Gallery Preview Viewport Idle</p>
+                <p class="text-[10px] text-neutral-600 max-w-xs mx-auto font-light leading-relaxed">Your output asset will render dynamically within an automated framing grid here.</p>
             </div>
 
-            <!-- Response Visual Data Render Area -->
-            <div id="outputContainer" class="hidden w-full h-full flex flex-col items-center justify-center z-10">
-                <div class="bg-neutral-900 border border-neutral-800 rounded-xl p-3 w-full max-w-sm shadow-2xl space-y-3">
-                    <div class="flex justify-between items-center text-[10px] text-neutral-400 border-b border-neutral-800 pb-1.5">
-                        <span id="outputMetaBrand" class="font-bold tracking-widest uppercase">ZARA</span>
-                        <span id="outputMetaRes" class="text-amber-500">1080x1350</span>
+            <!-- Dynamic Render Output Display Frame Area -->
+            <div id="outputContainer" class="hidden w-full flex flex-col items-center justify-center z-10 space-y-6 animate-fadeIn">
+                <div class="bg-neutral-900/40 border border-neutral-800/80 rounded-xl p-4 w-full max-w-sm shadow-xl space-y-4 glass-panel">
+                    <div class="aspect-[4/5] bg-black/40 rounded-lg flex items-center justify-center overflow-hidden border border-neutral-900/60 relative">
+                        <img id="previewImage" class="w-full h-full object-contain p-2" src="" alt="Studio Workspace Asset">
                     </div>
-                    <div class="aspect-[4/5] bg-neutral-950 rounded-lg flex items-center justify-center overflow-hidden border border-neutral-800 relative">
-                        <img id="previewImage" class="w-full h-full object-contain p-2" src="" alt="AI Output Preview">
-                    </div>
-                    <div class="flex justify-between items-center pt-1">
-                        <div>
-                            <p id="outputMetaProduct" class="text-xs font-medium text-white">Product Name</p>
-                            <p id="outputMetaPrice" class="text-[10px] text-neutral-500">$0.00</p>
-                        </div>
-                        <span class="text-[9px] bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2 py-0.5 rounded font-semibold uppercase tracking-wider" id="outputMetaStyle">ZARA STYLE</span>
-                    </div>
+                </div>
+
+                <!-- New Multi-Format High-Fidelity Downloader Layout Blocks -->
+                <div class="w-full max-w-sm grid grid-cols-3 gap-2.5">
+                    <button onclick="downloadAsset('png')" class="bg-neutral-900 hover:bg-neutral-800 text-neutral-300 font-medium py-2.5 rounded-xl text-[10px] uppercase tracking-wider transition-colors border border-neutral-800/80">Save PNG</button>
+                    <button onclick="downloadAsset('jpg')" class="bg-neutral-900 hover:bg-neutral-800 text-neutral-300 font-medium py-2.5 rounded-xl text-[10px] uppercase tracking-wider transition-colors border border-neutral-800/80">Save JPG</button>
+                    <button onclick="downloadAsset('pdf')" class="bg-neutral-900 hover:bg-neutral-800 text-neutral-300 font-medium py-2.5 rounded-xl text-[10px] uppercase tracking-wider transition-colors border border-neutral-800/80">Export PDF</button>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Global System Monitor Footer -->
+    <!-- Quiet Footnote Matrix Label -->
+    <footer class="px-6 py-4 flex justify-between items-center text-[9px] text-neutral-600 tracking-wider font-light bg-[#0e0e10] border-t border-neutral-900/40">
+        <span>CLEAN COMPOSITION ARCHITECTURE MATRIX</span>
+        <span>CORE EDITION V1.0</span>
+    </footer>
+
+    <script>
+        const imageInput = document.getElementById('productImage');
+        const uploadStatusText = document.getElementById('uploadStatusText');
