@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio — Analytics Ledger</title>
+    <script src="https://tailwindcss.com"></script>
+    <style>
+        @import url('https://googleapis.com');
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #0e0e10;
+            letter-spacing: -0.01em;
+        }
+    </style>
+</head>
+<body class="text-neutral-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Minimal Header -->
+    <header class="px-6 py-5 flex justify-between items-center border-b border-neutral-900/50 bg-[#0e0e10]/80 backdrop-blur-md">
+        <div class="flex items-center gap-3">
+            <a href="index.html" class="text-xs tracking-wider text-neutral-500 hover:text-neutral-200 transition-colors">← Back to Canvas</a>
+            <span class="text-neutral-800">|</span>
+            <span class="text-xs tracking-[0.25em] uppercase text-neutral-400 font-light">Performance Ledger</span>
+        </div>
+    </header>
+
+    <!-- Calming Ledger Grid Workspace -->
+    <main class="flex-1 max-w-3xl w-full mx-auto px-6 py-12 space-y-12">
+        <div class="space-y-1.5">
+            <h1 class="text-xl font-light text-neutral-100 tracking-tight">System Diagnostic Snapshot</h1>
+            <p class="text-xs text-neutral-500 font-light leading-relaxed">Real-time performance logs tracking high-resolution 4K asset outputs and server compute speeds.</p>
+        </div>
+
+        <!-- Clean Metric Row Blocks -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Metric Card 1 -->
+            <div class="bg-neutral-900/20 border border-neutral-900 rounded-2xl p-5 space-y-2">
+                <p class="text-[10px] font-medium text-neutral-500 uppercase tracking-wider">Lifetime Renders</p>
+                <p id="statRenders" class="text-2xl font-light text-neutral-200">0</p>
+            </div>
+            
+            <!-- Metric Card 2 -->
+            <div class="bg-neutral-900/20 border border-neutral-900 rounded-2xl p-5 space-y-2">
+                <p class="text-[10px] font-medium text-neutral-500 uppercase tracking-wider">Average Compute Velocity</p>
+                <p id="statSpeed" class="text-2xl font-light text-neutral-200">0 ms</p>
+            </div>
+
+            <!-- Metric Card 3 -->
+            <div class="bg-neutral-900/20 border border-neutral-900 rounded-2xl p-5 space-y-2">
+                <p class="text-[10px] font-medium text-neutral-500 uppercase tracking-wider">Data Volume Managed</p>
+                <p id="statData" class="text-2xl font-light text-neutral-200">0.00 MB</p>
+            </div>
+        </section>
+
+        <!-- Aesthetic Style Distribution Row -->
+        <section class="bg-neutral-900/10 border border-neutral-900 rounded-2xl p-6 space-y-4">
+            <div>
+                <h2 class="text-sm font-light text-neutral-300">Design Preference Core</h2>
+                <p class="text-[11px] text-neutral-600 font-light">Tracks your most frequently used luxury layout archetype configurations.</p>
+            </div>
+            
+            <div class="space-y-3 pt-2">
+                <div class="flex justify-between text-xs font-light">
+                    <span class="text-neutral-400">Favorite Archetype Focus:</span>
+                    <span id="statFavoriteStyle" class="text-neutral-200 uppercase tracking-wider font-normal">-</span>
+                </div>
+                <div class="w-full bg-neutral-950 h-1 rounded-full overflow-hidden">
+                    <div class="bg-neutral-600 h-full w-full rounded-full"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="px-6 py-4 text-[9px] text-neutral-600 tracking-wider font-light border-t border-neutral-900/40">
+        <span>LEDGER MODULE ACTIVE</span>
+    </footer>
+
+    <script>
+        // Restful background data pipeline connection loop
+        async function fetchSystemSnapshot() {
+            try {
+                const response = await fetch('/api/v1/analytics/snapshot');
+                if(response.ok) {
+                    const data = await response.json();
+                    
+                    // Smoothly map data array fields into display elements
+                    document.getElementById('statRenders').innerText = data.lifetime_renders;
+                    document.getElementById('statSpeed').innerText = `${data.average_pipeline_speed_ms} ms`;
+                    document.getElementById('statData').innerText = `${data.data_throughput_mb} MB`;
+                    document.getElementById('statFavoriteStyle').innerText = data.popular_archetype.replace('_', ' ');
+                }
+            } catch (err) {
+                // Keep the error quiet to maintain a relaxing UX
+                console.log("Awaiting server connectivity activity.");
+            }
+        }
+
+        // Run data snapshot scan instantly on mobile screen load
+        window.addEventListener('DOMContentLoaded', fetchSystemSnapshot);
+    </script>
+</body>
+</html>
