@@ -1,10 +1,10 @@
 import io
-from PIL import Image, ImageDraw, ImageFont, ImageEnhance, ImageFilter
+from PIL import Image, ImageDraw, ImageFont
 from backend.utils.enhancement import ProductEnhancementEngine
+from backend.services.prompt_engine import AIPromptLayoutEngine
 
 class LayoutEngineService:
     def __init__(self):
-        # Master system resolution dictionary configurations
         self.dimensions = {
             "instagram_feed": (1080, 1350),
             "instagram_story": (1080, 1920),
@@ -22,89 +22,105 @@ class LayoutEngineService:
         resolution: str
     ) -> io.BytesIO:
         """
-        Assembles background colors, borders, typography padding, and badges 
-        to output a clean, ultra-expensive looking social ad frame.
+        Assembles layout geometries, typography spacing matrices, and dynamic badges 
+        driven by the structural prompt token architecture matrix.
         """
         canvas_size = self.dimensions.get(resolution, (1080, 1350))
         c_w, c_h = canvas_size
         
-        # 1. Automatically harvest dynamic product palette elements
-        palette = ProductEnhancementEngine.extract_dominant_palette(product_layer)
-        primary_product_color = palette[0]
+        # 1. Pull dynamic AI layout rules tokens
+        strategy = AIPromptLayoutEngine.evaluate_creative_strategy(brand_name, design_style, price)
         
-        # 2. Establish Global Luxury Architecture Layout Styling Parameters
+        # 2. Harvest product color palette metadata
+        palette = ProductEnhancementEngine.extract_dominant_palette(product_layer)
+        primary_accent_color = palette[0]
+        
+        # 3. Dynamic Base Palette Assignment Engine
         if design_style == "dark_luxury":
             bg_color = (13, 13, 15, 255)       
-            text_color = (218, 165, 32, 255)   # Premium Champagne Luxury Gold Code
-            accent_color = (245, 245, 247, 255)
-            draw_ambient_gradient = True
+            text_color = (218, 165, 32, 255) # Luxury Gold Champagne Code
+            sub_color = (245, 245, 247, 255)
         elif design_style == "apple":
             bg_color = (245, 245, 247, 255)    
             text_color = (29, 29, 31, 255)     
-            accent_color = (134, 134, 139, 255)
-            draw_ambient_gradient = False
-        else: # Zara Style (Minimalist Editorial Setup)
+            sub_color = (134, 134, 139, 255)
+        elif design_style == "streetwear":
+            bg_color = (10, 10, 12, 255)
+            text_color = (255, 255, 255, 255)
+            sub_color = primary_accent_color + (255,)
+        else: # Default Zara Minimalist
             bg_color = (255, 255, 255, 255)    
             text_color = (15, 15, 15, 255)     
-            accent_color = (110, 110, 110, 255)
-            draw_ambient_gradient = False
+            sub_color = (110, 110, 110, 255)
 
-        # 3. Instantiate and Draw Background Canvas Array Setup
+        # 4. Canvas Initialization & Vignette Rendering
         canvas = Image.new("RGBA", canvas_size, bg_color)
         draw = ImageDraw.Draw(canvas)
         
-        if draw_ambient_gradient:
-            # Generate a gorgeous luxury vignette radial flare in back of product layer
-            for r in range(int(c_w * 0.8), 0, -4):
-                alpha = int(45 * (1.0 - (r / (c_w * 0.8))))
-                # Blend subtly into the background color space
+        if strategy["vignette_opacity"] > 0:
+            for r in range(int(c_w * 0.85), 0, -6):
+                alpha = int(strategy["vignette_opacity"] * (1.0 - (r / (c_w * 0.85))))
                 draw.ellipse(
                     [c_w//2 - r, c_h//2 - r, c_w//2 + r, c_h//2 + r], 
-                    fill=(primary_product_color[0], primary_product_color[1], primary_product_color[2], alpha)
+                    fill=(primary_accent_color[0], primary_accent_color[1], primary_accent_color[2], alpha)
                 )
 
-        # 4. Scale and Position Product Layer Safely
-        max_w = int(c_w * 0.80)
-        max_h = int(c_h * 0.58)
+        # 5. Core Product Geometry Alignment
+        max_w, max_h = int(c_w * 0.82), int(c_h * 0.55)
         product_layer.thumbnail((max_w, max_h), Image.Resampling.LANCZOS)
-        
         prod_w, prod_h = product_layer.size
-        prod_x = (c_w - prod_w) // 2
-        prod_y = int(c_h * 0.20) # Editorial positioning balance rule
         
+        prod_x = (c_w - prod_w) // 2
+        prod_y = int(c_h * 0.22)
         canvas.alpha_composite(product_layer, (prod_x, prod_y))
         
-        # 5. Render Geometry Layout Components (Borders & Clean Frames)
-        if design_style == "zara":
-            # Draw ultra-thin high-end art gallery framing border lines
-            padding = int(c_w * 0.03)
-            draw.rectangle([padding, padding, c_w - padding, c_h - padding], outline=(230, 230, 230, 255), width=1)
+        # 6. Framing Borders Engine Pass
+        if strategy["border_width"] > 0:
+            pad = int(c_w * 0.03)
+            border_color = text_color if design_style != "zara" else (235, 235, 235, 255)
+            draw.rectangle([pad, pad, c_w - pad, c_h - pad], outline=border_color, width=strategy["border_width"])
 
-        # 6. High-Fidelity Typography Engine Simulation Core 
-        # Standardizes layout rendering without failing on missing external font links
-        brand_clean = "  ".join(list(brand_name.upper())) # Elegant spacing expansion
-        draw.text((c_w // 2, int(c_h * 0.08)), brand_clean, fill=text_color, anchor="mm", font=None)
+        # 7. Intelligent Typography Distribution Engine
+        if strategy["font_tracking_expand"]:
+            brand_display = "  ".join(list(brand_name.upper()))
+        else:
+            brand_display = brand_name.upper()
+            
+        draw.text((c_w // 2, int(c_h * 0.08)), brand_display, fill=text_color, anchor="mm")
         
-        # Draw Product Footer Titles Block Layout
-        draw.text((c_w // 2, int(c_h * 0.82)), product_name, fill=text_color, anchor="mm", font=None)
+        # 8. Dynamic Retail Badge Ingestion Pass
+        if strategy["badge_type"]:
+            badge_y = int(c_h * 0.14)
+            badge_txt = strategy["badge_type"].replace("_", " ")
+            draw.text((c_w // 2, badge_y), f"★ {badge_txt} ★", fill=sub_color, anchor="mm")
+
+        # Footer Copy blocks
+        footer_base_y = int(c_h * strategy["footer_y_offset"])
+        draw.text((c_w // 2, footer_base_y), product_name, fill=text_color, anchor="mm")
         
-        # Draw Dynamic Price Presentation and Automated Affiliate Tag Badge Structures
-        price_tag_string = f"{price}  |  SPECIAL RELEASE" if not discount else f"{price} ({discount})"
-        draw.text((c_w // 2, int(c_h * 0.87)), price_tag_string, fill=accent_color, anchor="mm", font=None)
+        price_string = f"{price}  -  ARRIVING NOW" if not discount else f"{price} ({discount})"
+        draw.text((c_w // 2, footer_base_y + int(c_h * 0.045)), price_string, fill=sub_color, anchor="mm")
         
-        # Draw Call to Action (CTA) Pill Box Layout Frame
+        # 9. Smart CTA Generation Execution Blocks
         cta_y = int(c_h * 0.93)
-        cta_w, cta_h = int(c_w * 0.35), int(c_h * 0.035)
-        cta_x1, cta_y1 = (c_w - cta_w) // 2, cta_y - (cta_h // 2)
-        cta_x2, cta_y2 = cta_x1 + cta_w, cta_y1 + cta_h
+        cta_w, cta_h = int(c_w * 0.38), int(c_h * 0.038)
+        cx1, cy1 = (c_w - cta_w) // 2, cta_y - (cta_h // 2)
+        cx2, cy2 = cx1 + cta_w, cy1 + cta_h
         
-        cta_fill = text_color if design_style != "zara" else (20, 20, 22, 255)
-        cta_text_color = bg_color if design_style != "zara" else (255, 255, 255, 255)
-        
-        draw.rounded_rectangle([cta_x1, cta_y1, cta_x2, cta_y2], radius=6, fill=cta_fill)
-        draw.text((c_w // 2, cta_y), "SHOP LINK", fill=cta_text_color, anchor="mm")
+        if strategy["cta_style"] == "rectangle":
+            draw.rectangle([cx1, cy1, cx2, cy2], fill=(18, 18, 20, 255))
+            draw.text((c_w // 2, cta_y), "SHOP SELECTION", fill=(255, 255, 255, 255), anchor="mm")
+        elif strategy["cta_style"] == "pill_outline":
+            draw.rounded_rectangle([cx1, cy1, cx2, cy2], radius=12, outline=text_color, width=1)
+            draw.text((c_w // 2, cta_y), "DISCOVER MORE", fill=text_color, anchor="mm")
+        elif strategy["cta_style"] == "bold_block":
+            draw.rectangle([cx1, cy1, cx2, cy2], fill=sub_color)
+            draw.text((c_w // 2, cta_y), "GET IT NOW", fill=bg_color, anchor="mm")
+        else: # Standard Premium Pill
+            draw.rounded_rectangle([cx1, cy1, cx2, cy2], radius=8, fill=text_color)
+            draw.text((c_w // 2, cta_y), "SHOP COLLECTION", fill=bg_color, anchor="mm")
 
-        # 7. Convert Output Canvas Stream Layout 
+        # 10. Frame Buffer Assembly
         output_buffer = io.BytesIO()
         canvas.convert("RGB").save(output_buffer, format="JPEG", quality=98)
         output_buffer.seek(0)
