@@ -6,6 +6,7 @@ from backend.services.ai_engine import AIEngineService
 from backend.services.layout_engine import LayoutEngineService
 from backend.utils.enhancement import ProductEnhancementEngine
 import io
+from PIL import Image
 
 app = FastAPI(title=settings.PROJECT_NAME, version=settings.VERSION)
 
@@ -17,48 +18,39 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Initialize Core Cloud Production Service Frameworks
+# Instantiate architectural services securely
 ai_engine = AIEngineService()
 layout_engine = LayoutEngineService()
 
 @app.get("/health")
-async def system_health():
-    return {"status": "operational", "pipeline_modules": "Loaded", "enhancement_engine": "Active"}
+async def validation_health():
+    return {"status": "active", "environment": "minimal_studio_active"}
 
 @app.post("/api/v1/generate")
 async def generate_marketing_creative(
     file: UploadFile = File(...),
-    brand_name: str = Form("PREMIUM"),
-    product_name: str = Form("Luxury Asset Item"),
-    price: str = Form("$99.00"),
+    brand_name: str = Form("STUDIO"),
+    product_name: str = Form("Minimal Object"),
+    price: str = Form("$100.00"),
     discount: str = Form(""),
     design_style: str = Form("zara"),
     resolution: str = Form("instagram_feed")
 ):
-    """
-    Advanced commercial pipeline executing foreground mask segmentation, auto-color harmonies, 
-    studio lighting extraction algorithms, and high-resolution master layout compounding.
-    """
+    """Generates the premium visual asset composition loop inside server buffer layers."""
     contents = await file.read()
-    if len(contents) > settings.MAX_CONTENT_LENGTH:
-        raise HTTPException(status_code=413, detail="File metrics break maximum 50MB processing thresholds.")
-        
     try:
-        # Step 1: Strip image backdrop clusters cleanly
-        isolated_product_layer = ai_engine.remove_background(contents)
+        # Step 1: Background isolation mapping
+        isolated = ai_engine.remove_background(contents)
         
-        # Step 2: Inject Phase 6 Studio Lighting Re-balancing & Micro-Contrast pops
-        enhanced_product_layer = ProductEnhancementEngine.enhance_studio_lighting(
-            isolated_product_layer, 
-            design_style
-        )
+        # Step 2: Texture sharpening and exposure normalization
+        enhanced = ProductEnhancementEngine.enhance_studio_lighting(isolated, design_style)
         
-        # Step 3: Run floor effects generation layers (Reflections/Shadow Maps)
-        final_product_asset = ai_engine.generate_luxury_effects(enhanced_product_layer, design_style)
+        # Step 3: Floor lighting reflections and dropshadow padding passes
+        final_asset = ai_engine.generate_luxury_effects(enhanced, design_style)
         
-        # Step 4: Map typography metrics, custom badge borders, and output final file
-        final_creative_stream = layout_engine.compose_creative(
-            product_layer=final_product_asset,
+        # Step 4: Typography compilation and composition layout rendering
+        output_stream = layout_engine.compose_creative(
+            product_layer=final_asset,
             brand_name=brand_name,
             product_name=product_name,
             price=price,
@@ -66,8 +58,60 @@ async def generate_marketing_creative(
             design_style=design_style,
             resolution=resolution
         )
+        return StreamingResponse(output_stream, media_type="image/jpeg")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/v1/export")
+async def export_format_wrapper(
+    file: UploadFile = File(...),
+    brand_name: str = Form("STUDIO"),
+    product_name: str = Form("Minimal Object"),
+    price: str = Form("$100.00"),
+    discount: str = Form(""),
+    design_style: str = Form("zara"),
+    resolution: str = Form("instagram_feed"),
+    format_type: str = Form("png")
+):
+    """
+    Phase 11 & 13 Export Module: Converts array data maps dynamically into 
+    requested file extension codecs (PNG, JPG, or PDF document layout models).
+    """
+    contents = await file.read()
+    try:
+        # Re-execute baseline luxury asset transformation sequence cleanly from file buffers
+        isolated = ai_engine.remove_background(contents)
+        enhanced = ProductEnhancementEngine.enhance_studio_lighting(isolated, design_style)
+        final_asset = ai_engine.generate_luxury_effects(enhanced, design_style)
         
-        return StreamingResponse(final_creative_stream, media_type="image/jpeg")
+        raw_jpeg_stream = layout_engine.compose_creative(
+            product_layer=final_asset, 
+            brand_name=brand_name, 
+            product_name=product_name,
+            price=price, 
+            discount=discount, 
+            design_style=design_style, 
+            resolution=resolution
+        )
+        
+        # Load compiled master buffer image back into PIL to translate formatting layers
+        compiled_image = Image.open(raw_jpeg_stream)
+        export_buffer = io.BytesIO()
+        
+        # Parse output data metrics and apply explicit file wrappers
+        if format_type.lower() == "png":
+            compiled_image.save(export_buffer, format="PNG")
+            media_string = "image/png"
+        elif format_type.lower() == "pdf":
+            # Direct multi-platform printable PDF generation
+            compiled_image.convert("RGB").save(export_buffer, format="PDF", resolution=100.0)
+            media_string = "application/pdf"
+        else:
+            compiled_image.save(export_buffer, format="JPEG", quality=98)
+            media_string = "image/jpeg"
+            
+        export_buffer.seek(0)
+        return StreamingResponse(export_buffer, media_type=media_string)
         
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Pipeline Processing Fault: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Export transaction failure context: {str(e)}")
