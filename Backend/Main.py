@@ -5,6 +5,8 @@ from backend.config import settings
 from backend.services.ai_engine import AIEngineService
 from backend.services.layout_engine import LayoutEngineService
 from backend.utils.enhancement import ProductEnhancementEngine
+# NEW: Import your independent diagnostics controller router module cleanly
+from backend.services import analytics_router
 import io
 from PIL import Image
 
@@ -21,6 +23,9 @@ app.add_middleware(
 # Instantiate architectural services securely
 ai_engine = AIEngineService()
 layout_engine = LayoutEngineService()
+
+# NEW: Dynamically map and mount your analytics tracker endpoints into the server loop
+app.include_router(analytics_router.router)
 
 @app.get("/health")
 async def validation_health():
